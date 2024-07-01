@@ -15,6 +15,7 @@ const bcrypt = require("bcryptjs");
 const User = require("./models/user");
 
 var indexRouter = require("./routes/index");
+const loginRouter = require("./routes/login");
 
 // database connection setup
 const mongoose = require("mongoose");
@@ -70,7 +71,7 @@ app.use(
 );
 app.use(passport.session());
 app.use((req, res, next) => {
-  res.locals.currentUser = req.user;
+  res.locals.user = req.user;
   next();
 });
 
@@ -98,6 +99,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(compression());
 
 app.use("/", indexRouter);
+app.use("/login", loginRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
