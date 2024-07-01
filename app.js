@@ -8,6 +8,11 @@ var logger = require("morgan");
 const compression = require("compression");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
+const session = require("express-session");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const bcrypt = require("bcryptjs");
+const User = require("./models/user");
 
 var indexRouter = require("./routes/index");
 
@@ -21,6 +26,53 @@ var app = express();
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
+
+// passport setup
+passport.use(
+  new LocalStrategy(async (username, password, done) => {
+    try {
+      const user = await User.findOne({ username: username });
+      if (!user) {
+        return done(null, false, {
+          message: "Username or password is incorrect.",
+        });
+      }
+
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      if (!passwordMatch) {
+        return done(null, false, {
+          message: "Username or password is incorrect.",
+        });
+      }
+    } catch (error) {
+      return done(error);
+    }
+  })
+);
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (error) {
+    done(error);
+  }
+});
+
+app.use(
+  session({
+    secret: bcrypt.hashSync(process.env.SECRET),
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+app.use(passport.session());
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+});
 
 // rate limit setup
 // const limiter = rateLimit({
