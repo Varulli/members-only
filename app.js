@@ -10,7 +10,6 @@ const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 
 var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
 
 // database connection setup
 const mongoose = require("mongoose");
@@ -23,14 +22,30 @@ var app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
+// rate limit setup
+// const limiter = rateLimit({
+//   windowMs: 1 * 60 * 1000, // 15 minutes
+//   max: 20, // limit each IP to 100 requests per windowMs
+// });
+// app.use(limiter);
+
+// helmet setup
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      "script-src": ["'self'"],
+    },
+  })
+);
+
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(compression());
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
