@@ -15,13 +15,14 @@ const bcrypt = require("bcryptjs");
 const User = require("./models/user");
 
 var indexRouter = require("./routes/index");
-const loginRouter = require("./routes/login");
 const signUpRouter = require("./routes/sign-up");
+const loginRouter = require("./routes/login");
+const logoutRouter = require("./routes/logout");
 
 // database connection setup
 const mongoose = require("mongoose");
 const uri = process.env.MONGODB_URI || process.env.MONGODB_DEV_URI;
-mongoose.connect(uri).catch((error) => console.log(error));
+mongoose.connect(uri).catch((err) => console.log(err));
 
 var app = express();
 
@@ -47,8 +48,8 @@ passport.use(
         });
       }
       return done(null, user);
-    } catch (error) {
-      return done(error);
+    } catch (err) {
+      return done(err);
     }
   })
 );
@@ -59,8 +60,8 @@ passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findById(id);
     done(null, user);
-  } catch (error) {
-    done(error);
+  } catch (err) {
+    done(err);
   }
 });
 
@@ -103,6 +104,7 @@ app.use(compression());
 app.use("/", indexRouter);
 app.use("/sign-up", signUpRouter);
 app.use("/login", loginRouter);
+app.use("/logout", logoutRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
