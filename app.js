@@ -16,6 +16,7 @@ const User = require("./models/user");
 
 var indexRouter = require("./routes/index");
 const loginRouter = require("./routes/login");
+const signUpRouter = require("./routes/sign-up");
 
 // database connection setup
 const mongoose = require("mongoose");
@@ -45,6 +46,7 @@ passport.use(
           message: "Username or password is incorrect.",
         });
       }
+      return done(null, user);
     } catch (error) {
       return done(error);
     }
@@ -64,7 +66,7 @@ passport.deserializeUser(async (id, done) => {
 
 app.use(
   session({
-    secret: bcrypt.hashSync(process.env.SECRET),
+    secret: bcrypt.hashSync(process.env.SECRET, 10),
     resave: false,
     saveUninitialized: false,
   })
@@ -99,6 +101,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(compression());
 
 app.use("/", indexRouter);
+app.use("/sign-up", signUpRouter);
 app.use("/login", loginRouter);
 
 // catch 404 and forward to error handler

@@ -3,8 +3,8 @@ const router = express.Router();
 const passport = require("passport");
 
 /* GET login page. */
-router.get("/", (req, res, next) => {
-  if (res.locals.currentUser) res.redirect("/");
+router.get("/", function (req, res, next) {
+  if (res.locals.user) res.redirect("/");
   else res.render("login", { title: "Login" });
 });
 
