@@ -32,7 +32,8 @@ router.post(
   },
   passport.authenticate("local", {
     successRedirect: "/",
-    failureRedirect: "/sign-up",
+    failureRedirect: "/login",
+    failureMessage: true,
   })
 );
 

@@ -4,12 +4,16 @@ block content
   h1= title
 
   form(method='POST')
-    div
+    div.form-group
       label(for='username') Username:
-      input(type='text' name='username' id='username')
-    div
+      input(type='text' name='username' id='username' value=username)
+
+    div.form-group
       label(for='password') Password:
-      input(type='password' name='password' id='password')
+      input(type='password' name='password' id='password' value=password)
+
+    if error
+      p.error-message * #{error}
 
     button(type='submit') Log In
 
