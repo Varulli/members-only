@@ -5,6 +5,7 @@ const luxon = require("luxon");
 const Board = new Schema({
   user: { type: Schema.Types.ObjectId, ref: "User", required: true },
   title: { type: String, required: true },
+  description: { type: String },
   posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
   createdAt: { type: Date, default: Date.now() },
 });
