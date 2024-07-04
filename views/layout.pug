@@ -1,3 +1,5 @@
+include includes/mixins.pug
+
 doctype html
 html(lang='en')
   head
@@ -7,4 +9,21 @@ html(lang='en')
 
     link(rel='stylesheet' href='/stylesheets/style.css')
   body
+    header 
+      .logo 
+        a(href='/') Members Only 
+
+      nav 
+        menu 
+          a(href='/') Home 
+          if user 
+            a(href='/membership') Profile 
+
+          .account-buttons 
+            if !user 
+              a(href='/login') Log In 
+              a(href='/sign-up') Sign Up 
+            else 
+              a(href='/logout') Log Out
+
     block content

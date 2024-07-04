@@ -4,19 +4,19 @@ block content
   h1= title
 
   form(method='POST')
-    div.form-group
+    .form-group
       label(for='username') Username:
       input(type='text' name='username' id='username' required min=3 max=20 value=username)
       if errors && errors.has('username')
         p.error-message * #{errors.get('username')}
 
-    div.form-group
+    .form-group
       label(for='password') Password:
       input(type='password' name='password' id='password' required min=8 max=20 value=password)
       if errors && errors.has('password')
         p.error-message * #{errors.get('password')}
 
-    div.form-group
+    .form-group
       label(for='confim_password') Confirm Password:
       input(type='password' name='confirm_password' id='confirm_password')
       if errors && errors.has('confirm_password')
