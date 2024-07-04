@@ -6,7 +6,22 @@ const passport = require("passport");
 router.get("/", function (req, res, next) {
   if (req.user) return res.redirect("/");
 
-  // dev login
+  let error;
+  if (req.session.messages) {
+    error = req.session.messages[req.session.messages.length - 1];
+    req.session.messages.length = 0;
+  }
+
+  res.render("login", {
+    title: "Login",
+    username: req.body.username,
+    password: req.body.password,
+    error,
+  });
+});
+
+/* GET dev login */
+router.get("/dev", function (req, res, next) {
   req.body = {
     username: process.env.DEV_USERNAME,
     password: process.env.DEV_PASSWORD,
@@ -16,19 +31,6 @@ router.get("/", function (req, res, next) {
     failureRedirect: "/login",
     failureMessage: true,
   })(req, res, next);
-
-  // let error;
-  // if (req.session.messages) {
-  //   error = req.session.messages[req.session.messages.length - 1];
-  //   req.session.messages.length = 0;
-  // }
-
-  // res.render("login", {
-  //   title: "Login",
-  //   username: req.body.username,
-  //   password: req.body.password,
-  //   error,
-  // });
 });
 
 /* POST login page. */

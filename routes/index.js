@@ -1,9 +1,16 @@
 var express = require("express");
 var router = express.Router();
+const Board = require("../models/board");
+const User = require("../models/user");
 
 /* GET home page. */
-router.get("/", function (req, res, next) {
-  res.render("index", { title: "Homepage" });
+router.get("/", async function (req, res, next) {
+  const boards = await Board.find().populate("user").exec();
+
+  res.render("index", {
+    title: "Homepage",
+    boards,
+  });
 });
 
 module.exports = router;

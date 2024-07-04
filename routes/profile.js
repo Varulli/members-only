@@ -6,17 +6,7 @@ const User = require("../models/user");
 
 /* GET profile page. */
 router.get("/", async function (req, res, next) {
-  let userDocument;
-  if (req.user)
-    userDocument = await User.findOne(
-      { username: req.user.username },
-      { isMember: 1, isAdmin: 1 }
-    ).exec();
-
-  res.render("profile", {
-    title: "Profile",
-    userDocument,
-  });
+  res.render("profile", { title: "Profile" });
 });
 
 /* POST update username form. */
@@ -42,10 +32,6 @@ router.post(
     },
   }),
   async function (req, res, next) {
-    const userDocument = await User.findOne({
-      username: req.user.username,
-    }).exec();
-
     const errors = validationResult(req);
     let errorMap;
     if (!errors.isEmpty()) {
@@ -53,13 +39,12 @@ router.post(
         errors.array().map((error) => [error.path, error.msg])
       );
     } else {
-      userDocument.username = req.body.new_username;
-      await userDocument.save();
+      req.user.username = req.body.new_username;
+      await req.user.save();
     }
 
     res.render("profile", {
       title: "Profile",
-      userDocument,
       errors: errorMap,
     });
   }
@@ -75,11 +60,7 @@ router.post(
       escape: true,
       custom: {
         options: async (value, { req }) => {
-          const user = await User.findOne(
-            { username: req.user.username },
-            { password: 1 }
-          ).exec();
-          const passwordMatch = await bcrypt.compare(value, user.password);
+          const passwordMatch = await bcrypt.compare(value, req.user.password);
           return passwordMatch
             ? Promise.resolve()
             : Promise.reject("Incorrect password.");
@@ -106,7 +87,7 @@ router.post(
         },
       },
     },
-    confirm_new_password: {
+    confirm_password: {
       in: ["body"],
       trim: true,
       escape: true,
@@ -117,7 +98,25 @@ router.post(
         },
       },
     },
-  })
+  }),
+  async function (req, res, next) {
+    const errors = validationResult(req);
+    console.log(errors.array());
+    let errorMap;
+    if (!errors.isEmpty()) {
+      errorMap = new Map(
+        errors.array().map((error) => [error.path, error.msg])
+      );
+    } else {
+      req.user.password = await bcrypt.hash(req.body.new_password, 10);
+      await req.user.save();
+    }
+    console.log(errorMap);
+    res.render("profile", {
+      title: "Profile",
+      errors: errorMap,
+    });
+  }
 );
 
 /* POST update status form. */
@@ -132,11 +131,8 @@ router.post(
       custom: {
         options: async (value, { req }) => {
           if (value === process.env.MEMBER_PASSCODE) {
-            const user = await User.findOne({
-              username: req.user.username,
-            }).exec();
-            user.isMember = true;
-            await user.save();
+            req.user.isMember = true;
+            await req.user.save();
             return Promise.resolve();
           } else return Promise.reject("Incorrect passcode.");
         },
@@ -150,11 +146,8 @@ router.post(
       custom: {
         options: async (value, { req }) => {
           if (value === process.env.ADMIN_PASSCODE) {
-            const user = await User.findOne({
-              username: req.user.username,
-            }).exec();
-            user.isAdmin = true;
-            await user.save();
+            req.user.isAdmin = true;
+            await req.user.save();
             return Promise.resolve();
           } else return Promise.reject("Incorrect passcode.");
         },
@@ -170,14 +163,8 @@ router.post(
       );
     }
 
-    const userDocument = await User.findOne(
-      { username: req.user.username },
-      { isMember: 1, isAdmin: 1 }
-    ).exec();
-
     res.render("profile", {
       title: "Profile",
-      userDocument,
       errors: errorMap,
     });
   }
