@@ -6,18 +6,29 @@ const passport = require("passport");
 router.get("/", function (req, res, next) {
   if (req.user) return res.redirect("/");
 
-  let error;
-  if (req.session.messages) {
-    error = req.session.messages[req.session.messages.length - 1];
-    req.session.messages.length = 0;
-  }
+  // dev login
+  req.body = {
+    username: process.env.DEV_USERNAME,
+    password: process.env.DEV_PASSWORD,
+  };
+  passport.authenticate("local", {
+    successRedirect: "back",
+    failureRedirect: "/login",
+    failureMessage: true,
+  })(req, res, next);
 
-  res.render("login", {
-    title: "Login",
-    username: req.body.username,
-    password: req.body.password,
-    error,
-  });
+  // let error;
+  // if (req.session.messages) {
+  //   error = req.session.messages[req.session.messages.length - 1];
+  //   req.session.messages.length = 0;
+  // }
+
+  // res.render("login", {
+  //   title: "Login",
+  //   username: req.body.username,
+  //   password: req.body.password,
+  //   error,
+  // });
 });
 
 /* POST login page. */

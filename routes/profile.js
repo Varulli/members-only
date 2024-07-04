@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { checkSchema, validationResult } = require("express-validator");
+const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 
 /* GET profile page. */
@@ -24,7 +25,6 @@ router.post(
   checkSchema({
     new_username: {
       in: ["body"],
-      optional: { options: { values: "falsy" } },
       trim: true,
       escape: true,
       isLength: {
@@ -52,7 +52,7 @@ router.post(
       errorMap = new Map(
         errors.array().map((error) => [error.path, error.msg])
       );
-
+    } else {
       userDocument.username = req.body.new_username;
       await userDocument.save();
     }
@@ -66,7 +66,59 @@ router.post(
 );
 
 /* POST update password form. */
-/* TODO: Implement this route. */
+router.post(
+  "/update-password",
+  checkSchema({
+    current_password: {
+      in: ["body"],
+      trim: true,
+      escape: true,
+      custom: {
+        options: async (value, { req }) => {
+          const user = await User.findOne(
+            { username: req.user.username },
+            { password: 1 }
+          ).exec();
+          const passwordMatch = await bcrypt.compare(value, user.password);
+          return passwordMatch
+            ? Promise.resolve()
+            : Promise.reject("Incorrect password.");
+        },
+      },
+    },
+    new_password: {
+      in: ["body"],
+      trim: true,
+      escape: true,
+      isLength: {
+        errorMessage: "Password must be 8-20 characters long.",
+        options: { min: 8, max: 20 },
+      },
+      custom: {
+        options: (value) => {
+          if (!value.match(/[a-z]/))
+            throw new Error("Password must include a lowercase letter.");
+          if (!value.match(/[A-Z]/))
+            throw new Error("Password must include an uppercase letter.");
+          if (!value.match(/\d/))
+            throw new Error("Password must include a number.");
+          return true;
+        },
+      },
+    },
+    confirm_new_password: {
+      in: ["body"],
+      trim: true,
+      escape: true,
+      custom: {
+        options: (value, { req }) => {
+          if (value === req.body.new_password) return true;
+          else throw new Error("Passwords do not match.");
+        },
+      },
+    },
+  })
+);
 
 /* POST update status form. */
 router.post(
