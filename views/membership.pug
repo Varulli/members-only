@@ -14,13 +14,13 @@ block content
     form(method='POST')
       div.form-group
         label(for='member_passcode') Member Passcode:
-        input(type='text' name='member_passcode' id='member_passcode' value=member_passcode disabled=(userDocument.isMember))
+        input(type='text' name='member_passcode' id='member_passcode' value=member_passcode placeholder=(userDocument.isMember ? 'Is a member' : '') disabled=(userDocument.isMember))
         if errors && errors.has('member_passcode')
           p.error-message * #{errors.get('member_passcode')}
 
       div.form-group
         label(for='admin_passcode') Admin Passcode:
-        input(type='admin_passcode' name='admin_passcode' id='admin_passcode' value=admin_passcode disabled=(userDocument.isAdmin))
+        input(type='admin_passcode' name='admin_passcode' id='admin_passcode' value=admin_passcode placeholder=(userDocument.isAdmin ? 'Is an admin' : '') disabled=(userDocument.isAdmin))
         if errors && errors.has('admin_passcode')
           p.error-message * #{errors.get('admin_passcode')}
 
