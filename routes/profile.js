@@ -19,7 +19,51 @@ router.get("/", async function (req, res, next) {
 });
 
 /* POST update username form. */
-/* TODO: Implement this route. */
+router.post(
+  "/update-username",
+  checkSchema({
+    new_username: {
+      in: ["body"],
+      optional: { options: { values: "falsy" } },
+      trim: true,
+      escape: true,
+      isLength: {
+        errorMessage: "Username must be 3-20 characters long.",
+        options: { min: 3, max: 20 },
+      },
+      custom: {
+        options: async (value) => {
+          const user = await User.findOne({ username: value }).exec();
+          return user
+            ? Promise.reject("Username is already in use.")
+            : Promise.resolve();
+        },
+      },
+    },
+  }),
+  async function (req, res, next) {
+    const userDocument = await User.findOne({
+      username: req.user.username,
+    }).exec();
+
+    const errors = validationResult(req);
+    let errorMap;
+    if (!errors.isEmpty()) {
+      errorMap = new Map(
+        errors.array().map((error) => [error.path, error.msg])
+      );
+
+      userDocument.username = req.body.new_username;
+      await userDocument.save();
+    }
+
+    res.render("profile", {
+      title: "Profile",
+      userDocument,
+      errors: errorMap,
+    });
+  }
+);
 
 /* POST update password form. */
 /* TODO: Implement this route. */
@@ -74,12 +118,10 @@ router.post(
       );
     }
 
-    let userDocument;
-    if (req.user)
-      userDocument = await User.findOne(
-        { username: req.user.username },
-        { isMember: 1, isAdmin: 1 }
-      ).exec();
+    const userDocument = await User.findOne(
+      { username: req.user.username },
+      { isMember: 1, isAdmin: 1 }
+    ).exec();
 
     res.render("profile", {
       title: "Profile",
