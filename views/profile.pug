@@ -4,14 +4,14 @@ block content
   h1= title
 
   if !user
-    p You must be logged in to update your membership status. 
+    p You must be logged in to view your profile. 
       a(href='/login') Log in
       |  or 
       a(href='/sign-up') sign up
       | .
 
   else
-    form(method='POST')
+    form(method='POST' action='./update-status')
       .form-group
         label(for='member_passcode') Member Passcode:
         input(type='text' name='member_passcode' id='member_passcode' value=member_passcode placeholder=(userDocument.isMember ? 'Is a member' : '') disabled=(userDocument.isMember))

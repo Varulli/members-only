@@ -3,7 +3,7 @@ const router = express.Router();
 const { checkSchema, validationResult } = require("express-validator");
 const User = require("../models/user");
 
-/* GET membership page. */
+/* GET profile page. */
 router.get("/", async function (req, res, next) {
   let userDocument;
   if (req.user)
@@ -12,15 +12,21 @@ router.get("/", async function (req, res, next) {
       { isMember: 1, isAdmin: 1 }
     ).exec();
 
-  res.render("membership", {
-    title: "Update Membership Status",
+  res.render("profile", {
+    title: "Profile",
     userDocument,
   });
 });
 
-/* POST membership page. */
+/* POST update username form. */
+/* TODO: Implement this route. */
+
+/* POST update password form. */
+/* TODO: Implement this route. */
+
+/* POST update status form. */
 router.post(
-  "/",
+  "/update-status",
   checkSchema({
     member_passcode: {
       in: ["body"],
@@ -76,7 +82,7 @@ router.post(
       ).exec();
 
     res.render("membership", {
-      title: "Update Membership Status",
+      title: "Profile",
       userDocument,
       errors: errorMap,
     });
