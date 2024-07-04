@@ -81,7 +81,7 @@ router.post(
         { isMember: 1, isAdmin: 1 }
       ).exec();
 
-    res.render("membership", {
+    res.render("profile", {
       title: "Profile",
       userDocument,
       errors: errorMap,

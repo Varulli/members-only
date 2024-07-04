@@ -11,7 +11,40 @@ block content
       | .
 
   else
-    form(method='POST' action='./update-status')
+    h2 Update Username 
+    form(method='POST' action='/profile/update-username')
+      .form-group
+        label(for='new_username') New Username:
+        input(type='text' name='new_username' id='new_username' value=new_username)
+        if errors && errors.has('new_username')
+          p.error-message * #{errors.get('new_username')}
+
+      button(type='submit') Update Username
+
+    h2 Update Password
+    form(method='POST' action='/profile/update-password')
+      .form-group
+        label(for='current_password') Current Password:
+        input(type='password' name='current_password' id='current_password')
+        if errors && errors.has('current_password')
+          p.error-message * #{errors.get('current_password')}
+
+      .form-group
+        label(for='new_password') New Password:
+        input(type='password' name='new_password' id='new_password')
+        if errors && errors.has('new_password')
+          p.error-message * #{errors.get('new_password')}
+
+      .form-group
+        label(for='confirm_password') Confirm Password:
+        input(type='password' name='confirm_password' id='confirm_password')
+        if errors && errors.has('confirm_password')
+          p.error-message * #{errors.get('confirm_password')}
+
+      button(type='submit') Update Password
+
+    h2 Update Status
+    form(method='POST' action='/profile/update-status')
       .form-group
         label(for='member_passcode') Member Passcode:
         input(type='text' name='member_passcode' id='member_passcode' value=member_passcode placeholder=(userDocument.isMember ? 'Is a member' : '') disabled=(userDocument.isMember))
