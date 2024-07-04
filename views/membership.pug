@@ -1,0 +1,27 @@
+extends layout 
+
+block content 
+  h1= title
+
+  if !user
+    p You must be logged in to update your membership status. 
+      a(href='/login') Log in
+      |  or 
+      a(href='/sign-up') sign up
+      | .
+
+  else
+    form(method='POST')
+      div.form-group
+        label(for='member_passcode') Member Passcode:
+        input(type='text' name='member_passcode' id='member_passcode' value=member_passcode disabled=(userDocument.isMember))
+        if errors && errors.has('member_passcode')
+          p.error-message * #{errors.get('member_passcode')}
+
+      div.form-group
+        label(for='admin_passcode') Admin Passcode:
+        input(type='admin_passcode' name='admin_passcode' id='admin_passcode' value=admin_passcode disabled=(userDocument.isAdmin))
+        if errors && errors.has('admin_passcode')
+          p.error-message * #{errors.get('admin_passcode')}
+
+      button(type='submit') Update Status
