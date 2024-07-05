@@ -19,6 +19,7 @@ const signUpRouter = require("./routes/sign-up");
 const loginRouter = require("./routes/login");
 const logoutRouter = require("./routes/logout");
 const profileRouter = require("./routes/profile");
+const boardRouter = require("./routes/board");
 
 // database connection setup
 const mongoose = require("mongoose");
@@ -107,6 +108,7 @@ app.use("/sign-up", signUpRouter);
 app.use("/login", loginRouter);
 app.use("/logout", logoutRouter);
 app.use("/profile", profileRouter);
+app.use("/board", boardRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
