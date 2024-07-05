@@ -8,16 +8,16 @@ mixin displayPost(post)
     p= post.content 
     p= post.createdAtFormatted
 
-mixin displayBoard(posts)
+mixin displayBoard(board)
   .board
-    each post in posts
+    each post in board.posts
       +displayPost(post)
 
 mixin displayBoardList(boards)
   .board-list 
     each board in boards
       button 
-        a(href=`/board/${board.id}`)
+        a(href=`/boards/${board.id}`)
           if user 
             h6= board.user.username 
           else
