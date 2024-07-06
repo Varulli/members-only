@@ -4,3 +4,11 @@ block content
   h1= title
 
   +displayBoard(board)
+
+  if user 
+    form(method='POST')
+      .form-group 
+        label(for='content') Post: 
+        textarea.form-control(name='content')
+
+      button(type='submit') Create Post

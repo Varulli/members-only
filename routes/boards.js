@@ -4,7 +4,7 @@ const { checkSchema, validationResult } = require("express-validator");
 const Board = require("../models/board");
 const Post = require("../models/post");
 
-/* GET home page. */
+/* GET board list page. */
 router.get("/", async function (req, res, next) {
   const boards = await Board.find().populate("user").exec();
 
@@ -14,21 +14,26 @@ router.get("/", async function (req, res, next) {
   });
 });
 
-/* GET board page. */
+/* GET board detail page. */
 router.get("/:id", async function (req, res, next) {
   const board = await Board.findById(req.params.id)
     .populate("user", "username")
-    .populate("posts")
+    .populate({
+      path: "posts",
+      populate: {
+        path: "user",
+        select: "username",
+      },
+    })
     .exec();
-  for (const post of board.posts) post.populate("user", "username");
-
+  console.log(board.posts);
   res.render("board_detail", {
     title: board.title,
     board,
   });
 });
 
-/* POST board page. */
+/* POST board list page. */
 router.post(
   "/",
   checkSchema({
@@ -66,6 +71,33 @@ router.post(
     await board.save();
 
     res.redirect("/boards");
+  }
+);
+
+/* POST board detail page. */
+router.post(
+  "/:id",
+  checkSchema({
+    content: {
+      in: ["body"],
+      trim: true,
+      escape: true,
+    },
+  }),
+  async function (req, res, next) {
+    if (req.body.content) {
+      const post = new Post({
+        user: req.user,
+        content: req.body.content,
+      });
+
+      const board = await Board.findById(req.params.id).exec();
+      board.posts.push(post);
+      console.log(post);
+      await Promise.all([post.save(), board.save()]);
+    }
+
+    res.redirect(`/boards/${req.params.id}`);
   }
 );
 
