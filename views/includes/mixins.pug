@@ -16,13 +16,12 @@ mixin displayBoard(board)
 mixin displayBoardList(boards)
   .board-list 
     each board in boards
-      button 
-        a(href=`/boards/${board.id}`)
-          if user 
-            h6= board.user.username 
-          else
-            h6 
-              i Anonymous
-          h5= board.title 
-          p= board.description
-          p= board.createdAtFormatted
+      a(href=`/boards/${board.id}`)
+        if user 
+          h6= board.user.username 
+        else
+          h6 
+            i Anonymous
+        h5= board.title 
+        p= board.description
+        p= board.createdAtFormatted
