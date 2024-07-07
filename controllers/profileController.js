@@ -30,6 +30,8 @@ exports.post_update_username = [
     },
   }),
   asyncHandler(async (req, res, next) => {
+    if (!req.user) return res.redirect("/profile");
+
     const errors = validationResult(req);
     let errorMap;
     if (!errors.isEmpty()) {
@@ -97,6 +99,8 @@ exports.post_update_password = [
     },
   }),
   asyncHandler(async (req, res, next) => {
+    if (!req.user) return res.redirect("/profile");
+
     const errors = validationResult(req);
     console.log(errors.array());
     let errorMap;
@@ -151,6 +155,8 @@ exports.post_update_status = [
     },
   }),
   asyncHandler(async (req, res, next) => {
+    if (!req.user) return res.redirect("/profile");
+
     const errors = validationResult(req);
     let errorMap;
     if (!errors.isEmpty()) {
