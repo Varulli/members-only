@@ -25,7 +25,7 @@ exports.get_board_detail = asyncHandler(async (req, res, next) => {
       },
     })
     .exec();
-  console.log(board.posts);
+
   res.render("board_detail", {
     title: board.title,
     board,
@@ -51,10 +51,15 @@ exports.post_board_list = [
     },
   }),
   asyncHandler(async (req, res, next) => {
+    if (!req.user) return res.redirect("/boards");
+
+    const boards = await Board.find().populate("user").exec();
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.render("board_list", {
         title: "List of Boards",
+        boards,
         board_title: req.body.board_title,
         description: req.body.description,
         errors: new Map(errors.array().map((error) => [error.path, error.msg])),
@@ -79,20 +84,43 @@ exports.post_board_detail = [
       in: ["body"],
       trim: true,
       escape: true,
+      isLength: {
+        errorMessage: "Post content is a required field.",
+        options: { min: 1 },
+      },
     },
   }),
   asyncHandler(async (req, res, next) => {
-    if (req.body.content) {
-      const post = new Post({
-        user: req.user,
-        content: req.body.content,
-      });
+    if (!req.user) return res.redirect(`/boards/${req.params.id}`);
 
-      const board = await Board.findById(req.params.id).exec();
-      board.posts.push(post);
-      console.log(post);
-      await Promise.all([post.save(), board.save()]);
+    const board = await Board.findById(req.params.id)
+      .populate("user", "username")
+      .populate({
+        path: "posts",
+        populate: {
+          path: "user",
+          select: "username",
+        },
+      })
+      .exec();
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.render("board_detail", {
+        title: board.title,
+        board,
+        content: req.body.content,
+        errors: new Map(errors.array().map((error) => [error.path, error.msg])),
+      });
     }
+
+    const post = new Post({
+      user: req.user,
+      content: req.body.content,
+    });
+    board.posts.push(post);
+
+    await Promise.all([post.save(), board.save()]);
 
     res.redirect(`/boards/${req.params.id}`);
   }),

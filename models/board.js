@@ -16,4 +16,8 @@ Board.virtual("createdAtFormatted").get(function () {
   );
 });
 
+Board.virtual("createdAtISO").get(function () {
+  return this.createdAt.toISOString();
+});
+
 module.exports = mongoose.model("Board", Board);

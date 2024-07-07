@@ -1,12 +1,12 @@
 mixin displayPost(post)
   .post 
     if user 
-      h6= post.user.username
+      h6.username= post.user.username
     else 
-      h6 
+      h6.username 
         i Anonymous
     p= post.content 
-    p= post.createdAtFormatted
+    time(datetime=post.createdAtISO)= post.createdAtFormatted
 
 mixin displayBoard(board)
   .board
@@ -24,4 +24,4 @@ mixin displayBoardList(boards)
             i Anonymous
         h5= board.title 
         p= board.description
-        p= board.createdAtFormatted
+        time(datetime=board.createdAtISO)= board.createdAtFormatted

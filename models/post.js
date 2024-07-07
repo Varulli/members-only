@@ -14,4 +14,8 @@ Post.virtual("createdAtFormatted").get(function () {
   );
 });
 
+Post.virtual("createdAtISO").get(function () {
+  return this.createdAt.toISOString();
+});
+
 module.exports = mongoose.model("Post", Post);

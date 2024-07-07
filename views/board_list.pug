@@ -10,8 +10,8 @@ block content
       .form-group 
         label(for='board_title') Title
         input(type='text' name='board_title' id='board_title' value=board_title required)
-        if errors && errors.has('title')
-          p.error-message * #{errors.get('title')}
+        if errors && errors.has('board_title')
+          p.error-message * #{errors.get('board_title')}
 
       .form-group 
         label(for='description') Description

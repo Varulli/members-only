@@ -9,6 +9,8 @@ block content
     form(method='POST')
       .form-group 
         label(for='content') Post: 
-        textarea.form-control(name='content')
+        textarea.form-control(name='content' id='content' value=content required)
+        if errors && errors.has('content')
+          p.error-message * #{errors.get('content')}
 
       button(type='submit') Create Post
