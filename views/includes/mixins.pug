@@ -22,6 +22,6 @@ mixin displayBoardList(boards)
         else
           h6 
             i Anonymous
-        h5= board.title 
+        h5= `${board.title} - ${board.posts.length} posts` 
         p= board.description
         time(datetime=board.createdAtISO)= board.createdAtFormatted
