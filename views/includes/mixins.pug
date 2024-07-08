@@ -13,13 +13,22 @@ mixin displayPost(post)
 
 mixin displayBoard(board)
   each post in board.posts
-    +displayPost(post)
+    .post 
+      .content
+        +displayCreator(post.user)
+        p= post.content 
+        time(datetime=post.createdAtISO)= post.createdAtFormatted
+
+      if user && user.isAdmin
+        form(method='POST' action=`/boards/${board.id}/delete/${post.id}`)
+          button(type='submit') Delete Post
+
 
 mixin displayBoardList(boards)
   .board-list 
     each board in boards
       .board
-        a(href=`/boards/${board.id}`)
+        a.content(href=`/boards/${board.id}`)
           +displayCreator(board.user)
           h5= `${board.title} - ${board.posts.length} posts` 
           p= board.description
