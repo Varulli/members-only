@@ -33,7 +33,7 @@ exports.get_board_detail = asyncHandler(async (req, res, next) => {
 });
 
 // Handle board create on POST.
-exports.post_board_list = [
+exports.post_board_list_create = [
   checkSchema({
     board_title: {
       in: ["body"],
@@ -77,8 +77,11 @@ exports.post_board_list = [
   }),
 ];
 
+// Handle board delete on POST.
+exports.post_board_list_delete = null;
+
 // Handle board post create on POST.
-exports.post_board_detail = [
+exports.post_board_detail_create = [
   checkSchema({
     content: {
       in: ["body"],
@@ -125,3 +128,6 @@ exports.post_board_detail = [
     res.redirect(`/boards/${req.params.id}`);
   }),
 ];
+
+// Handle board post delete on POST.
+exports.post_board_detail_delete = null;
