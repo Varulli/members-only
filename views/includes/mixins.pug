@@ -1,27 +1,34 @@
+mixin displayCreator(creator)
+  if user && user.isMember
+    h6.username= creator.username
+  else 
+    h6.username 
+      i Anonymous
+
 mixin displayPost(post)
   .post 
-    if user 
-      h6.username= post.user.username
-    else 
-      h6.username 
-        i Anonymous
+    +displayCreator(post.user)
     p= post.content 
     time(datetime=post.createdAtISO)= post.createdAtFormatted
 
 mixin displayBoard(board)
-  .board
-    each post in board.posts
-      +displayPost(post)
+  each post in board.posts
+    +displayPost(post)
 
 mixin displayBoardList(boards)
   .board-list 
     each board in boards
-      a(href=`/boards/${board.id}`)
-        if user 
-          h6= board.user.username 
-        else
-          h6 
-            i Anonymous
-        h5= `${board.title} - ${board.posts.length} posts` 
-        p= board.description
-        time(datetime=board.createdAtISO)= board.createdAtFormatted
+      .board
+        a(href=`/boards/${board.id}`)
+          +displayCreator(board.user)
+          h5= `${board.title} - ${board.posts.length} posts` 
+          p= board.description
+          time(datetime=board.createdAtISO)= board.createdAtFormatted
+
+        if user && user.isAdmin
+          form(method='POST' action=`/boards/delete/${board.id}`)
+            button(type='submit') Delete Board
+
+
+
+
