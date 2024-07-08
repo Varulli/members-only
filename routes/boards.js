@@ -11,11 +11,11 @@ router.get("/:id", controller.get_board_detail);
 /* POST board list page (create board). */
 router.post("/", controller.post_board_list_create);
 
+/* POST board detail page (create post). */
+router.post("/:id", controller.post_board_detail_create);
+
 /* POST board list page (delete board). */
 router.post("/delete/:id", controller.post_board_list_delete);
-
-/* POST board detail page (create post). */
-router.post("/:id", controller.post_board_detail);
 
 /* POST board detail page (delete post). */
 router.post("/:id/delete/:post_id", controller.post_board_detail_delete);

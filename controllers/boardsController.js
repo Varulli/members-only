@@ -77,9 +77,6 @@ exports.post_board_list_create = [
   }),
 ];
 
-// Handle board delete on POST.
-exports.post_board_list_delete = null;
-
 // Handle board post create on POST.
 exports.post_board_detail_create = [
   checkSchema({
@@ -129,5 +126,23 @@ exports.post_board_detail_create = [
   }),
 ];
 
+// Handle board delete on POST.
+exports.post_board_list_delete = asyncHandler(async (req, res, next) => {
+  if (!req.user || !req.user.isAdmin) return res.redirect("/boards");
+
+  await Board.findByIdAndDelete(req.params.id).exec();
+
+  res.redirect("/boards");
+});
+
 // Handle board post delete on POST.
-exports.post_board_detail_delete = null;
+exports.post_board_detail_delete = asyncHandler(async (req, res, next) => {
+  if (!req.user || !req.user.isAdmin)
+    return res.redirect(`/boards/${req.params.id}`);
+
+  const board = await Board.findById(req.params.id).exec();
+  board.posts.pull(req.params.post_id);
+  await board.save();
+
+  res.redirect(`/boards/${req.params.id}`);
+});
