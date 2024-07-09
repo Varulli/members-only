@@ -15,9 +15,10 @@ html(lang='en')
 
       nav 
         menu 
-          a(href='/') Home 
-          if user 
-            a(href='/profile') Profile 
+          .nav-links
+            a(href='/') Home 
+            if user 
+              a(href='/profile') Profile 
 
           .account-buttons 
             if !user 
@@ -27,4 +28,5 @@ html(lang='en')
             else 
               a(href='/logout') Log Out
 
-    block content
+    main
+      block content
