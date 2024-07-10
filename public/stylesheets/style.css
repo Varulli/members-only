@@ -48,6 +48,7 @@ header {
   display: flex;
   align-items: center;
   gap: 3rem;
+  padding: 0 1rem;
 }
 
 header a {
@@ -62,7 +63,6 @@ header a:hover:not(.logo a) {
   display: block;
   font-size: 2.2rem;
   font-weight: bold;
-  margin-left: 1rem;
 }
 
 nav {
@@ -84,11 +84,42 @@ menu a {
   display: block;
 }
 
-.nav-links {
+.nav-links,
+.account-buttons {
   display: flex;
 }
 
 .nav-links a {
   font-size: 1.5rem;
   padding: 1.2rem;
+}
+
+.account-buttons {
+  align-items: center;
+  gap: 1rem;
+}
+
+.account-buttons a {
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: .6rem 1rem;
+  border-radius: 2rem;
+  transition: all .2s ease;
+}
+
+.account-buttons .login {
+  background-color: var(--light-color);
+  color: var(--primary-color);
+}
+
+.account-buttons .login:hover {
+  background-color: var(--primary-color-alt);
+  color: var(--light-color);
+}
+
+.account-buttons .sign-up,
+.account-buttons .logout {
+  background-color: var(--primary-color);
+  color: var(--light-color);
+  border: .15rem solid var(--light-color);
 }
