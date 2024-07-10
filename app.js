@@ -80,6 +80,11 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  res.locals.dev = process.env.NODE_ENV === "development";
+  next();
+});
+
 // rate limit setup
 // const limiter = rateLimit({
 //   windowMs: 1 * 60 * 1000, // 15 minutes

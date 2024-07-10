@@ -23,7 +23,8 @@ html(lang='en')
           .account-buttons 
             if !user 
               a(href='/login') Log In 
-              a(href='/login/dev') Log In as Dev
+              if dev
+                a(href='/login/dev') Log In as Dev
               a(href='/sign-up') Sign Up 
             else 
               a(href='/logout') Log Out

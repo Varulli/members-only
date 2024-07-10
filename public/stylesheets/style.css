@@ -15,6 +15,7 @@
   --foreground-color: #333;
   --background-color: #f8f8f8;
   --background-color-alt: #c4c4c4;
+  --light-color: #f8f8f8;
 }
 
 @media screen and (prefers-color-scheme: dark) {
@@ -34,5 +35,27 @@ body {
 }
 
 a {
-  color: var(--primary-color);
+  /* color: var(--primary-color); */
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--primary-color-alt);
+}
+
+header {
+  background-color: var(--primary-color);
+  display: flex;
+  gap: 1rem;
+}
+
+header a {
+  color: var(--light-color);
+}
+
+.logo a {
+  display: block;
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 1rem;
 }
