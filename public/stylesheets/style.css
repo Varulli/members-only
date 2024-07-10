@@ -40,22 +40,55 @@ a {
 }
 
 a:hover {
-  color: var(--primary-color-alt);
+  /* color: var(--primary-color-alt); */
 }
 
 header {
   background-color: var(--primary-color);
   display: flex;
-  gap: 1rem;
+  align-items: center;
+  gap: 3rem;
 }
 
 header a {
   color: var(--light-color);
 }
 
+header a:hover:not(.logo a) {
+  background-color: var(--primary-color-alt);
+}
+
 .logo a {
   display: block;
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: bold;
-  padding: 1rem;
+  margin-left: 1rem;
+}
+
+nav {
+  flex: 1;
+}
+
+menu {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+menu li {
+  list-style: none;
+}
+
+menu a {
+  display: block;
+}
+
+.nav-links {
+  display: flex;
+}
+
+.nav-links a {
+  font-size: 1.5rem;
+  padding: 1.2rem;
 }

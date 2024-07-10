@@ -15,12 +15,12 @@ html(lang='en')
 
       nav 
         menu 
-          .nav-links
+          li.nav-links
             a(href='/') Home 
             if user 
               a(href='/profile') Profile 
 
-          .account-buttons 
+          li.account-buttons 
             if !user 
               a.login(href='/login') Log In 
               if dev
