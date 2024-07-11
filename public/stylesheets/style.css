@@ -14,7 +14,7 @@
   --danger-color-alt: #A22940;
   --foreground-color: #333;
   --background-color: #f8f8f8;
-  --background-color-alt: #c4c4c4;
+  --background-color-alt: #e4e4e4;
   --light-color: #f8f8f8;
 }
 
@@ -31,16 +31,11 @@
 }
 
 body {
-  background-color: var(--background-color);
+  background-color: var(--background-color-alt);
 }
 
 a {
-  /* color: var(--primary-color); */
   text-decoration: none;
-}
-
-a:hover {
-  /* color: var(--primary-color-alt); */
 }
 
 header {
@@ -122,4 +117,18 @@ menu a {
   background-color: var(--primary-color);
   color: var(--light-color);
   border: .15rem solid var(--light-color);
+}
+
+main {
+  background-color: var(--background-color);
+  margin: 1.5rem;
+  padding: 1.5rem;
+}
+
+.board-list,
+.post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
 }
