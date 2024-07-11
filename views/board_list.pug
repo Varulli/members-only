@@ -10,13 +10,13 @@ block content
       h2 Create Board
 
       .form-group 
-        label(for='board_title') Title
+        label(for='board_title') Title:
         input.form-control(type='text' name='board_title' id='board_title' value=board_title required)
         if errors && errors.has('board_title')
           p.error-message * #{errors.get('board_title')}
 
       .form-group 
-        label(for='description') Description
+        label(for='description') Description:
         textarea.form-control(name='description' id='description' value=description)
 
       button.submit(type='submit') Create Board

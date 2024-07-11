@@ -17,6 +17,7 @@ mixin displayBoard(board)
         if user && user.isAdmin
           form(method='POST' action=`/boards/${board.id}/delete/${post.id}`)
             button.delete(type='submit') Delete Post
+      hr
 
 
 mixin displayBoardList(boards)
@@ -34,6 +35,7 @@ mixin displayBoardList(boards)
         if user && user.isAdmin
           form(method='POST' action=`/boards/delete/${board.id}`)
             button.delete(type='submit') Delete Board
+      hr
 
 
 

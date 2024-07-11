@@ -125,13 +125,19 @@ main {
   padding: 1.5rem;
 }
 
+h1 {
+  margin-bottom: 1rem;
+}
+
+hr {
+  margin: 1rem 0;
+}
+
 .board-list,
 .post-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  padding: 1rem;
+  padding-left: 1rem;
 }
 
 .content {
@@ -157,6 +163,11 @@ main {
   text-decoration: underline;
 }
 
+.content time {
+  align-self: flex-end;
+  font-size: .8rem;
+}
+
 .submit,
 .delete {
   color: var(--light-color);
@@ -179,6 +190,7 @@ main {
 
 .delete {
   background-color: var(--danger-color);
+  align-self: flex-end;
 }
 
 .delete:hover {
@@ -192,6 +204,10 @@ form {
   gap: 1rem;
 }
 
+form:has(button.delete) {
+  margin: 0;
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -199,6 +215,6 @@ form {
   margin-left: 1rem;
 }
 
-form button {
+form button:not(.delete) {
   margin-left: 1rem;
 }

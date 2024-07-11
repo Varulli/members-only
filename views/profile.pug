@@ -22,6 +22,8 @@ block content
 
       button.submit(type='submit') Update Username
 
+    hr
+
     form(method='POST' action='/profile/update-password')
       h2 Update Password
 
@@ -44,6 +46,8 @@ block content
           p.error-message * #{errors.get('confirm_password')}
 
       button.submit(type='submit') Update Password
+
+    hr
 
     form(method='POST' action='/profile/update-status')
       h2 Update Status
