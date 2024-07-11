@@ -11,7 +11,7 @@ block content
 
       .form-group 
         label(for='content') Post: 
-        textarea.form-control(name='content' id='content' value=content required)
+        textarea.form-control(name='content' id='content' value=content required cols=30)
         if errors && errors.has('content')
           p.error-message * #{errors.get('content')}
 
