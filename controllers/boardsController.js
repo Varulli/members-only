@@ -130,7 +130,9 @@ exports.post_board_detail_create = [
 exports.post_board_list_delete = asyncHandler(async (req, res, next) => {
   if (!req.user || !req.user.isAdmin) return res.redirect("/boards");
 
-  await Board.findByIdAndDelete(req.params.id).exec();
+  const board = await Board.findById(req.params.id).exec();
+  for (const post of board.posts) await Post.findByIdAndDelete(post).exec();
+  await board.deleteOne().exec();
 
   res.redirect("/boards");
 });
