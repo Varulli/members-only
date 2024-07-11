@@ -24,9 +24,9 @@ mixin displayBoardList(boards)
     each board in boards
       .board
         .content
-          +displayCreator(board.user)
           h5.board-title
-            a(href=`/boards/${board.id}`) board.title
+            a(href=`/boards/${board.id}`)= board.title
+          +displayCreator(board.user)
           p #{board.posts.length} posts
           p= board.description
           time(datetime=board.createdAtISO)= board.createdAtFormatted
