@@ -12,11 +12,13 @@ mixin displayBoard(board)
         .content
           +displayCreator(post.user)
           p= post.content 
+
+        .info
           time(datetime=post.createdAtISO)= post.createdAtFormatted
 
-        if user && user.isAdmin
-          form(method='POST' action=`/boards/${board.id}/delete/${post.id}`)
-            button.delete(type='submit') Delete Post
+          if user && user.isAdmin
+            form(method='POST' action=`/boards/${board.id}/delete/${post.id}`)
+              button.delete(type='submit') Delete Post
       hr
 
 
@@ -30,11 +32,13 @@ mixin displayBoardList(boards)
           +displayCreator(board.user)
           p #{board.posts.length} posts
           p= board.description
+
+        .info
           time(datetime=board.createdAtISO)= board.createdAtFormatted
 
-        if user && user.isAdmin
-          form(method='POST' action=`/boards/delete/${board.id}`)
-            button.delete(type='submit') Delete Board
+          if user && user.isAdmin
+            form(method='POST' action=`/boards/delete/${board.id}`)
+              button.delete(type='submit') Delete Board
       hr
 
 

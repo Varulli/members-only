@@ -140,6 +140,12 @@ hr {
   padding-left: 1rem;
 }
 
+.board,
+.post {
+  display: flex;
+  justify-content: space-between;
+}
+
 .content {
   display: flex;
   flex-direction: column;
@@ -163,9 +169,11 @@ hr {
   text-decoration: underline;
 }
 
-.content time {
-  align-self: flex-end;
-  font-size: .8rem;
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  justify-content: space-between;
 }
 
 .submit,
