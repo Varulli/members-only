@@ -7,6 +7,8 @@ block content
 
   if user && user.isAdmin
     form(method='POST')
+      h2 Create Board
+
       .form-group 
         label(for='board_title') Title
         input.form-control(type='text' name='board_title' id='board_title' value=board_title required)

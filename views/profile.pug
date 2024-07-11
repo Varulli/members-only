@@ -11,8 +11,9 @@ block content
       | .
 
   else
-    h2 Update Username 
     form(method='POST' action='/profile/update-username')
+      h2 Update Username 
+
       .form-group
         label(for='new_username') New Username:
         input.form-control(type='text' name='new_username' id='new_username' value=new_username required)
@@ -21,8 +22,9 @@ block content
 
       button(type='submit') Update Username
 
-    h2 Update Password
     form(method='POST' action='/profile/update-password')
+      h2 Update Password
+
       .form-group
         label(for='current_password') Current Password:
         input.form-control(type='password' name='current_password' id='current_password' required)
@@ -43,8 +45,9 @@ block content
 
       button(type='submit') Update Password
 
-    h2 Update Status
     form(method='POST' action='/profile/update-status')
+      h2 Update Status
+
       .form-group
         label(for='member_passcode') Member Passcode:
         input.form-control(type='text' name='member_passcode' id='member_passcode' value=member_passcode placeholder=(user.isMember ? 'Is a member' : '') disabled=(user.isMember))
