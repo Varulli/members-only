@@ -20,7 +20,7 @@ block content
         if errors && errors.has('new_username')
           p.error-message * #{errors.get('new_username')}
 
-      button(type='submit') Update Username
+      button.submit(type='submit') Update Username
 
     form(method='POST' action='/profile/update-password')
       h2 Update Password
@@ -43,7 +43,7 @@ block content
         if errors && errors.has('confirm_password')
           p.error-message * #{errors.get('confirm_password')}
 
-      button(type='submit') Update Password
+      button.submit(type='submit') Update Password
 
     form(method='POST' action='/profile/update-status')
       h2 Update Status
@@ -60,4 +60,4 @@ block content
         if errors && errors.has('admin_passcode')
           p.error-message * #{errors.get('admin_passcode')}
 
-      button(type='submit') Update Status
+      button.submit(type='submit') Update Status
