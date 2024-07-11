@@ -14,7 +14,8 @@ mixin displayBoard(board)
           p= post.content 
 
         .info
-          time(datetime=post.createdAtISO)= post.createdAtFormatted
+          if user && user.isMember
+            time(datetime=post.createdAtISO)= post.createdAtFormatted
 
           if user && user.isAdmin
             form(method='POST' action=`/boards/${board.id}/delete/${post.id}`)
@@ -34,7 +35,8 @@ mixin displayBoardList(boards)
           p= board.description
 
         .info
-          time(datetime=board.createdAtISO)= board.createdAtFormatted
+          if user && user.isMember
+            time(datetime=board.createdAtISO)= board.createdAtFormatted
 
           if user && user.isAdmin
             form(method='POST' action=`/boards/delete/${board.id}`)
