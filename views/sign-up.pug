@@ -22,7 +22,7 @@ block content
       if errors && errors.has('confirm_password')
         p.error-message * #{errors.get('confirm_password')}
 
-    button(type='submit') Sign Up
+    button.submit(type='submit') Sign Up
 
     p Already have an account? 
       a(href='/login') Log In

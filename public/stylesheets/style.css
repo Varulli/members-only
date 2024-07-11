@@ -8,7 +8,7 @@
   font-size: 16px;
   font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
 
-  --primary-color: #3DCEB3;
+  --primary-color: #1DC5A6;
   --primary-color-alt: #29A28B;
   --danger-color: #CE3D59;
   --danger-color-alt: #A22940;
@@ -21,7 +21,7 @@
 @media screen and (prefers-color-scheme: dark) {
   :root {
     --primary-color: #29A28B;
-    --primary-color-alt: #3DCEB3;
+    --primary-color-alt: #1DC5A6;
     --danger-color: #A22940;
     --danger-color-alt: #CE3D59;
     --foreground-color: #f8f8f8;
@@ -149,4 +149,32 @@ main {
 .board-title {
   font-size: 1.5rem;
   font-weight: bold;
+}
+
+.submit,
+.delete {
+  color: var(--light-color);
+  font-size: .9rem;
+  font-weight: bold;
+  padding: .4rem .7rem;
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+.submit {
+  background-color: var(--primary-color);
+}
+
+.submit:hover {
+  background-color: var(--primary-color-alt);
+}
+
+.delete {
+  background-color: var(--danger-color);
+}
+
+.delete:hover {
+  background-color: var(--danger-color-alt);
 }
