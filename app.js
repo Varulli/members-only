@@ -86,11 +86,11 @@ app.use((req, res, next) => {
 });
 
 // rate limit setup
-// const limiter = rateLimit({
-//   windowMs: 1 * 60 * 1000, // 15 minutes
-//   max: 20, // limit each IP to 100 requests per windowMs
-// });
-// app.use(limiter);
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute(s)
+  max: 20, // limit each IP to 20 requests per windowMs
+});
+app.use(limiter);
 
 // helmet setup
 app.use(
